@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Login.css';
 import axios from 'axios';
 export const Login = () => {
@@ -10,6 +10,8 @@ export const Login = () => {
         nombre: '',
         contraseña : ''
     })
+
+    const [usuario, setUsuario] = useState(null);
 
 
 const handleLogin = (e)=>{
@@ -38,6 +40,22 @@ const handleRegister = (e)=>{
         })
 }
 
+    const enviarFormulario = (e)=>{
+        e.preventDefault();
+        axios.post('http://localhost:3001/user/login',{
+            nombre:logdata.nombre,
+            contraseña:logdata.contraseña
+        }).then((res) => {
+            console.log(res);
+        })
+    }
+
+    const traerUsuario = ()=>{
+        axios.get('http://localhost:3001/user/ver')
+        .then((response)=>{
+            console.log(response.data);
+        }).catch(err => console.log(err));
+    };
 
 
     return (
@@ -61,7 +79,7 @@ const handleRegister = (e)=>{
 
             <div className="login__container">
                 <h2>LOGEATE</h2>
-                <form>
+                <form onSubmit ={enviarFormulario}>
                     <label>Nombre: </label>
                     <input
                     value={logdata.nombre}
@@ -76,8 +94,9 @@ const handleRegister = (e)=>{
                 </form>
             </div>
 
-            <button>VER USUARIO LOGEADO</button>
+            <button onClick={traerUsuario} >VER USUARIO LOGEADO</button>
 
+    {usuario ? <h1>BIENVENIDO {usuario.nombre}</h1> : <h1>no hay aun</h1>}
         </div>
     )
 }
