@@ -88,7 +88,7 @@ method:'GET',
     return (
         <div className="login_register">
             <div className="register__container">
-                <h2>REGISTRATE</h2>
+                <h2>REGISTRATE CRIATURA</h2>
                 
                     <label>Nombre: </label>
                     <input
@@ -108,7 +108,7 @@ method:'GET',
             </div>
 
             <div className="login__container">
-                <h2>LOGEATE</h2>
+                <h2>LOGEATE PINCHE CARNAL</h2>
                 
                     <label>Nombre: </label>
                     <input
