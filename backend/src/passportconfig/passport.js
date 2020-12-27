@@ -33,7 +33,9 @@ module.exports = function(passport){
     })
 
     passport.deserializeUser(function(id, done){
-        User.findByPk(id)
+        User.findByPk(id, {
+            attributes:['id','nombre']
+        })
         .then(elUsuario => {
             done(null, elUsuario);
         }).catch(err => console.log(err));

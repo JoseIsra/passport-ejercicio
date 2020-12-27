@@ -1,9 +1,11 @@
 
 const Sequelize = require('sequelize');
 const userModel = require('../models/users');
+const dbData = require('../dbCredentials');
 
-const sequelize = new Sequelize('pruebapassport','root','54321', {
-    host:'localhost',
+
+const sequelize = new Sequelize(dbData.database,dbData.user,dbData.password, {
+    host:dbData.host,
     dialect:'mysql'
 });
 

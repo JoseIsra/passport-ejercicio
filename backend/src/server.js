@@ -6,7 +6,6 @@ const passport = require('passport');
 
 // const cookies = require('cookie-parser');
 const app = express();
-
 require('./dbonfig/dbconfig');
 require('./passportconfig/passport')(passport);
 
