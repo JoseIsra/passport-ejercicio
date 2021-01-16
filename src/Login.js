@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import './Login.css';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 
 export const Login = () => {
     const [logdata, setLogdata] = useState({
@@ -14,6 +14,19 @@ export const Login = () => {
     })
 
     const [usuario, setUsuario] = useState(null);
+    // const [hayUser, setHayUser] = useState(false);
+    const readCookie = ()=>{
+        let data = Cookies.get('user');
+        if(data !== undefined){
+            data=JSON.parse(data);
+            setUsuario(data.nombre);
+            
+        }
+        
+    }
+    useEffect(()=>{
+        readCookie();
+    },[]);
 
 
     const handleLogin = (e) => {
@@ -31,13 +44,11 @@ export const Login = () => {
     }
 
     const enviarRegistro = async() => {
-        await axios.post('http://localhost:4000/user',{
+        await axios.post('http://localhost:8080/user',{
             nombre:registerdata.nombre,
             contraseña: registerdata.contraseña,
-    } , {
-        withCredentials:true
     })
-     /*    axios({
+/*    axios({
 method:'POST',
 data:{
     nombre:registerdata.nombre,
@@ -49,13 +60,30 @@ data:{
     };
 
     const enviarFormulario = async() => {
-        const respuesta = await axios.post('http://localhost:4000/user/login',{
-            nombre:logdata.nombre,
-            contraseña: logdata.contraseña,
-    }, {
-        withCredentials:true
-    })
-    console.log(respuesta);
+        try{
+            const respuesta = await axios.post('http://localhost:8080/user/login',{
+                nombre:logdata.nombre,
+                contraseña: logdata.contraseña,
+        })
+        console.log(respuesta);
+        //setUsuario(respuesta.data.nombre);
+        Cookies.set('user',respuesta.data);
+      //  setHayUser(true);
+      window.location.reload();
+        
+        }catch(err){
+            console.log(err);
+        }
+        }
+
+        const cerrarSesion =()=>{
+            Cookies.remove('user');
+            setUsuario(null);
+            window.location.reload();
+           // setHayUser(false);
+        }
+
+
 /*      axios({
 method:'POST',
 data:{
@@ -65,16 +93,16 @@ data:{
     withCredentials:true,
     url:'http://localhost:4000/user/login'
         }).then((res)=>console.log(res)); */
-    };
+    
 
-    const traerUsuario = () => {
-        axios.get('http://localhost:4000/user/usuario', {
-            withCredentials:true
-        })
-        .then((res)=> {
-            setUsuario(res.data);
-            console.log(res.data);
-        })
+    // const traerUsuario = () => {
+    //     axios.get('http://localhost:4000/user/usuario', {
+    //         withCredentials:true
+    //     })
+    //     .then((res)=> {
+    //         setUsuario(res.data);
+    //         console.log(res.data);
+    //     })
     /*     axios({
 method:'GET',
     withCredentials:true,
@@ -83,8 +111,7 @@ method:'GET',
             setUsuario(res.data);
             console.log(res.data);
         }); */
-    };
-
+    
     return (
         <div className="login_register">
             <div className="register__container">
@@ -126,9 +153,10 @@ method:'GET',
             
             </div>
 
-            <button onClick={traerUsuario} >VER USUARIO LOGEADO</button>
 
-            { usuario ? <h1>BIENVENIDO {usuario.nombre}</h1> : <h1>no hay aun</h1>}
+
+            { usuario ? <h1>BIENVENIDO {usuario}</h1> : <h1>no hay aun</h1>}
+            <button onClick={cerrarSesion}>LOG OUT </button>
         </div>
     )
 }
