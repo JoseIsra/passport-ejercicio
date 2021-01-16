@@ -30,24 +30,6 @@ router.post('/login', async(req, res)=> {
     
 })
 
-// router.post('/login', (req, res, next)=>{
-//     passport.authenticate('local', (err,user)=> {
-//         if(err) throw err;
-//         if(!user) res.send("no hay usuario");
-//         else{
-//             req.logIn(user , (err) => {
-//                 if(err) throw err;
-//                     res.send("exito mijo");
-//                     console.log(req.user);
-//             })
-//         }
-//     })(req, res, next);
-// });
-
-// router.get('/usuario',(req, res) =>{
-// res.send(req.user);
-    
-// })
 
 
 module.exports = router;

@@ -14,7 +14,7 @@ export const Login = () => {
     })
 
     const [usuario, setUsuario] = useState(null);
-    // const [hayUser, setHayUser] = useState(false);
+    
     const readCookie = ()=>{
         let data = Cookies.get('user');
         if(data !== undefined){
@@ -44,24 +44,15 @@ export const Login = () => {
     }
 
     const enviarRegistro = async() => {
-        await axios.post('http://localhost:8080/user',{
+        await axios.post('https://backen-ejercicio-passport.herokuapp.com/user',{
             nombre:registerdata.nombre,
             contraseña: registerdata.contraseña,
     })
-/*    axios({
-method:'POST',
-data:{
-    nombre:registerdata.nombre,
-    contraseña: registerdata.contraseña,
-    },
-    withCredentials:true,
-    url:'http://localhost:4000/user'
-        }).then((res)=>console.log(res)); */
-    };
+        }
 
     const enviarFormulario = async() => {
         try{
-            const respuesta = await axios.post('http://localhost:8080/user/login',{
+            const respuesta = await axios.post('https://backen-ejercicio-passport.herokuapp.com/user/login',{
                 nombre:logdata.nombre,
                 contraseña: logdata.contraseña,
         })
@@ -69,7 +60,7 @@ data:{
         //setUsuario(respuesta.data.nombre);
         Cookies.set('user',respuesta.data);
       //  setHayUser(true);
-      window.location.reload();
+        window.location.reload();
         
         }catch(err){
             console.log(err);
@@ -80,37 +71,7 @@ data:{
             Cookies.remove('user');
             setUsuario(null);
             window.location.reload();
-           // setHayUser(false);
         }
-
-
-/*      axios({
-method:'POST',
-data:{
-    nombre:logdata.nombre,
-    contraseña: logdata.contraseña,
-    },
-    withCredentials:true,
-    url:'http://localhost:4000/user/login'
-        }).then((res)=>console.log(res)); */
-    
-
-    // const traerUsuario = () => {
-    //     axios.get('http://localhost:4000/user/usuario', {
-    //         withCredentials:true
-    //     })
-    //     .then((res)=> {
-    //         setUsuario(res.data);
-    //         console.log(res.data);
-    //     })
-    /*     axios({
-method:'GET',
-    withCredentials:true,
-    url:'http://localhost:4000/user/usuario'
-        }).then((res)=> {
-            setUsuario(res.data);
-            console.log(res.data);
-        }); */
     
     return (
         <div className="login_register">
@@ -130,8 +91,6 @@ method:'GET',
                     <button
                     onClick ={enviarRegistro}
                     >guardar</button>
-            
-                
             </div>
 
             <div className="login__container">
