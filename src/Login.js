@@ -47,6 +47,8 @@ export const Login = () => {
         await axios.post('https://backen-ejercicio-passport.herokuapp.com/user',{
             nombre:registerdata.nombre,
             contraseña: registerdata.contraseña,
+    }, {
+        withCredentials:true
     })
         }
 
@@ -55,7 +57,8 @@ export const Login = () => {
             const respuesta = await axios.post('https://backen-ejercicio-passport.herokuapp.com/user/login',{
                 nombre:logdata.nombre,
                 contraseña: logdata.contraseña,
-        })
+        }, {withCredentials:true}
+        )
         console.log(respuesta);
         //setUsuario(respuesta.data.nombre);
         Cookies.set('user',respuesta.data);
